@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './Footer.module.css'; // CSS Modulesをインポート
 
 function Footer({
   year = "2023",
@@ -6,7 +7,7 @@ function Footer({
   rightsText = "All rights reserved."
 }) {
   return (
-    <footer>
+    <footer className={styles.footer}>
       <div className="section-container">
         &copy; {year} {companyName}. {rightsText}
       </div>

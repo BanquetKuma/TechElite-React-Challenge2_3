@@ -1,0 +1,14 @@
+/* 
+ * Footer.module.css
+ * フッターセクションのスタイル
+ */
+
+/* フッター全体のスタイル */
+.footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 2rem 0;
+  width: 100vw;
+  margin-left: calc(50% - 50vw); /* 画面幅いっぱいに広げる */
+}

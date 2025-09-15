@@ -1,0 +1,43 @@
+/* 
+ * Features.module.css
+ * 特徴セクションのスタイル
+ */
+
+/* 特徴カードのコンテナ（グリッドレイアウト） */
+.featureContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 3rem;
+}
+
+/* 各特徴カード */
+.feature {
+  flex-basis: calc(33.33% - 2rem);
+  margin-bottom: 2rem;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* カードのホバー効果 */
+.feature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* アイコンのスタイル */
+.featureIcon {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+/* レスポンシブデザイン - タブレット以下 */
+@media (max-width: 768px) {
+  .feature {
+    flex-basis: 100%; /* モバイルでは1列表示 */
+  }
+}

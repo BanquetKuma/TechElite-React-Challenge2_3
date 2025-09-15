@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './Testimonials.module.css'; // CSS Modulesをインポート
 
 function Testimonials({
   title = "お客様の声",
@@ -21,11 +22,11 @@ function Testimonials({
     <section id="testimonials">
       <div className="section-container">
         <h2>{title}</h2>
-        <div className="testimonial-container">
+        <div className={styles.testimonialContainer}>
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="testimonial">
-              <p>"{testimonial.comment}"</p>
-              <cite>- {testimonial.author}</cite>
+            <div key={index} className={styles.testimonial}>
+              <p className={styles.testimonialText}>"{testimonial.comment}"</p>
+              <cite className={styles.testimonialAuthor}>- {testimonial.author}</cite>
             </div>
           ))}
         </div>

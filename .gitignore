@@ -43,9 +43,10 @@ Thumbs.db
 *.temp
 *.log
 
-# Package lock files (keep only one)
+# Package lock files (keep only pnpm)
 package-lock.json
-# yarn.lock
+yarn.lock
+# pnpm-lock.yaml should be committed
 
 # Runtime data
 pids

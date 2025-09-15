@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './Hero.module.css'; // CSS Modulesをインポート
 
 function Hero({
   title = "新しい体験をあなたに",
@@ -7,11 +8,11 @@ function Hero({
   ctaLink = "#contact"
 }) {
   return (
-    <section id="hero">
+    <section className={styles.hero}>
       <div className="section-container">
-        <h1>{title}</h1>
-        <p>{subtitle}</p>
-        <a href={ctaLink} className="cta-button">{ctaText}</a>
+        <h1 className={styles.heroTitle}>{title}</h1>
+        <p className={styles.heroDescription}>{subtitle}</p>
+        <a href={ctaLink} className={styles.ctaButton}>{ctaText}</a>
       </div>
     </section>
   );

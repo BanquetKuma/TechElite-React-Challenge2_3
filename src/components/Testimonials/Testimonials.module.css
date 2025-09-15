@@ -1,0 +1,48 @@
+/* 
+ * Testimonials.module.css
+ * お客様の声セクションのスタイル
+ */
+
+/* お客様の声カードのコンテナ */
+.testimonialContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 3rem;
+}
+
+/* 各お客様の声カード */
+.testimonial {
+  flex-basis: calc(33.33% - 2rem);
+  margin-bottom: 2rem;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* カードのホバー効果 */
+.testimonial:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* お客様のコメント（イタリック体） */
+.testimonialText {
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+/* お客様の名前（太字、青色） */
+.testimonialAuthor {
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+/* レスポンシブデザイン - タブレット以下 */
+@media (max-width: 768px) {
+  .testimonial {
+    flex-basis: 100%; /* モバイルでは1列表示 */
+  }
+}

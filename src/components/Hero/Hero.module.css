@@ -1,0 +1,50 @@
+/* 
+ * Hero.module.css
+ * Heroセクション（メインビジュアル）のスタイル
+ */
+
+/* Heroセクション全体のスタイル */
+.hero {
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  color: #fff;
+  text-align: center;
+  padding: 8rem 0;
+  width: 100vw;
+  margin-left: calc(50% - 50vw); /* 画面幅いっぱいに広げる */
+}
+
+/* メインタイトル */
+.heroTitle {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+/* サブテキスト */
+.heroDescription {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+/* CTAボタン（Call To Action = 行動喚起ボタン） */
+.ctaButton {
+  display: inline-block;
+  background-color: #fff;
+  color: var(--primary-color);
+  padding: 0.8rem 2rem;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+/* ボタンのホバー効果 */
+.ctaButton:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}

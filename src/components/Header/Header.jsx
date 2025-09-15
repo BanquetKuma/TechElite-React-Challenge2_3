@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styles from './Header.module.css'; // CSS Modulesをインポート
 
 function Header({
   logoText = "My Stylish LP",
@@ -9,13 +10,26 @@ function Header({
     { href: "#contact", text: "お問い合わせ" }
   ]
 }) {
+  // ハンバーガーメニューの開閉状態を管理
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // ハンバーガーメニューのクリックハンドラー
+  const handleHamburgerClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <header>
-      <div className="header-container">
-        <div className="logo">{logoText}</div>
+    <header className={styles.header}>
+      <div className={styles.headerContainer}>
+        <div className={styles.logo}>{logoText}</div>
         <nav>
-          <div className="hamburger">☰</div>
-          <ul className="nav-links">
+          <div 
+            className={styles.hamburger} 
+            onClick={handleHamburgerClick}
+          >
+            ☰
+          </div>
+          <ul className={`${styles.navLinks} ${isMenuOpen ? styles.active : ''}`}>
             {navItems.map((item, index) => (
               <li key={index}>
                 <a href={item.href}>{item.text}</a>

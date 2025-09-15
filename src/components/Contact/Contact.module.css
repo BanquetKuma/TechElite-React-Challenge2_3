@@ -1,0 +1,50 @@
+/* 
+ * Contact.module.css
+ * お問い合わせセクションのスタイル
+ */
+
+/* お問い合わせセクション全体 */
+.contact {
+  background-color: #fff;
+}
+
+/* フォームのスタイル */
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* 入力フィールドの共通スタイル */
+.formInput,
+.formTextarea {
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-family: inherit; /* 親要素のフォントを継承 */
+}
+
+/* テキストエリアの高さ設定 */
+.formTextarea {
+  min-height: 120px;
+  resize: vertical; /* 縦方向のみリサイズ可能 */
+}
+
+/* 送信ボタン */
+.submitButton {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* ボタンのホバー効果 */
+.submitButton:hover {
+  background-color: var(--secondary-color);
+}

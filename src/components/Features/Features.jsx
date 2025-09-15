@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './Features.module.css'; // CSS Modulesをインポート
 
 function Features({
   title = "特徴",
@@ -24,10 +25,10 @@ function Features({
     <section id="features">
       <div className="section-container">
         <h2>{title}</h2>
-        <div className="feature-container">
+        <div className={styles.featureContainer}>
           {features.map((feature, index) => (
-            <div key={index} className="feature">
-              <i className={feature.icon}></i>
+            <div key={index} className={styles.feature}>
+              <i className={`${feature.icon} ${styles.featureIcon}`}></i>
               <h3>{feature.title}</h3>
               <p>{feature.description}</p>
             </div>
