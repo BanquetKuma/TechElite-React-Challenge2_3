@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Header.module.css'; // CSS Modulesをインポート
 
 function Header({
@@ -18,6 +18,25 @@ function Header({
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // ウィンドウリサイズ監視でレスポンシブ対応
+  useEffect(() => {
+    // リサイズイベントのハンドラー関数
+    const handleResize = () => {
+      // ウィンドウ幅が768pxを超えた場合、メニューを閉じる
+      if (window.innerWidth > 768) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    // ウィンドウにリサイズイベントリスナーを追加
+    window.addEventListener('resize', handleResize);
+
+    // クリーンアップ関数：コンポーネント削除時にイベントリスナーを解除
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); // 依存関係配列を空にして、初回マウント時に一度だけ実行
+
   return (
     <header className={styles.header}>
       <div className={styles.headerContainer}>
@@ -27,7 +46,8 @@ function Header({
             className={styles.hamburger} 
             onClick={handleHamburgerClick}
           >
-            ☰
+            {/* メニューの開閉状態に応じてアイコンを動的に変更 */}
+            {isMenuOpen ? '×' : '☰'}
           </div>
           <ul className={`${styles.navLinks} ${isMenuOpen ? styles.active : ''}`}>
             {navItems.map((item, index) => (
