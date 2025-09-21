@@ -48,3 +48,71 @@
 .submitButton:hover {
   background-color: var(--secondary-color);
 }
+
+/* フォームグループ（フィールド + エラーメッセージのコンテナ） */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+/* エラーメッセージのスタイル */
+.errorMessage {
+  color: #dc3545; /* 赤色 */
+  font-size: 0.875rem; /* 14px */
+  margin-top: 0.25rem; /* 4px */
+  margin-bottom: 0.5rem; /* 8px */
+  font-weight: 500;
+  display: block;
+}
+
+/* 成功メッセージのスタイル（課題要件に基づく） */
+.successMessage {
+  margin: 20px auto;
+  padding: 15px 20px;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeInSlideDown 0.5s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 600px;
+  width: 90%;
+  box-sizing: border-box;
+}
+
+/* 成功メッセージのチェックマークアイコン */
+.successMessage::before {
+  content: "✔️";
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+/* 成功メッセージのアニメーション */
+@keyframes fadeInSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* フォーム入力フィールドのエラー状態スタイル（追加改善） */
+.formInput:invalid,
+.formTextarea:invalid {
+  border-color: #dc3545;
+}
+
+/* フォーカス時のスタイル改善 */
+.formInput:focus,
+.formTextarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
