@@ -1,30 +1,34 @@
-import React, { useState } from 'react'; // useStateフックをインポート
-import { useForm } from 'react-hook-form'; // React Hook Formをインポート
-import styles from './Contact.module.css'; // CSS Modulesをインポート
+import { useState } from 'react'; // useStateフックのインポート
+import { useForm, SubmitHandler } from 'react-hook-form'; // React Hook Formの型定義を含むインポート
+import styles from './Contact.module.css'; // CSS Modulesの型定義はcss.d.tsで定義済み
+// 📚 学習ポイント：共通型定義ファイルからのインポート
+// 理論ファイルより：「コンポーネントでの型インポート例」
+// 型定義を一元管理し、プロジェクト全体で一貫した型を使用
+import { ContactProps, ContactFormInput } from '../../types';
 
+// 📚 学習ポイント：React Hook FormとTypeScriptの高度な統合
+// 理論ファイルより：「<FormInput>でフォームがFormInput型のデータを扱うと明示」
 function Contact({
   title = "お問い合わせ",
   submitText = "送信する"
-}) {
-  // React Hook Formの初期化
-  // register: 各入力フィールドをフォームに登録する関数
-  // handleSubmit: フォーム送信を処理する関数
-  // formState: フォームの状態（エラー情報など）を管理するオブジェクト
+}: ContactProps) {
+  // 📚 学習ポイント：useFormフックにジェネリドクス型を指定
+  // <FormInput>を指定することで、register関数やerrorsオブジェクトが型安全になる
   const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset // フォームをリセットする関数
-  } = useForm();
+    register,    // 入力フィールドをフォームに登録する関数（型安全）
+    handleSubmit, // フォーム送信を処理する関数（型安全）
+    formState: { errors }, // フォームの状態（エラー情報等）を管理するオブジェクト（型安全）
+    reset        // フォームをリセットする関数
+  } = useForm<ContactFormInput>();
 
-  // フォーム送信成功後の状態管理
-  // isSubmitted: 送信が完了したかどうかを管理する状態
-  // setIsSubmitted: isSubmittedの値を更新する関数
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  // 📚 学習ポイント：useStateフックの型定義
+  // useState<boolean>で状態の型を明示的に指定、型安全性を確保
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // フォーム送信時に実行される関数
-  // data: React Hook Formが収集したフォームデータ
-  const onSubmit = (data) => {
+  // 📚 学習ポイント：SubmitHandler型の活用
+  // 理論ファイルより：「SubmitHandler<FormInput>で(data)がFormInput型になることが保証」
+  // dataパラメータがFormInput型であることをTypeScriptが保証
+  const onSubmit: SubmitHandler<ContactFormInput> = (data: ContactFormInput): void => {
     // 実際の送信処理をここに実装
     // 現在はコンソールにデータを出力（開発用）
     console.log('フォームデータ:', data);
@@ -36,7 +40,7 @@ function Contact({
     reset();
 
     // 3秒後に成功メッセージを非表示にする
-    setTimeout(() => {
+    setTimeout((): void => {
       setIsSubmitted(false);
     }, 3000);
   };
@@ -56,7 +60,7 @@ function Contact({
         {/* React Hook Formで管理されるフォーム */}
         <form className={styles.contactForm} onSubmit={handleSubmit(onSubmit)}>
           
-          {/* お名前フィールド（必須） */}
+          {/* 📚 学習ポイント：お名前フィールド（必須） */}
           <div className={styles.formGroup}>
             <input 
               type="text" 
@@ -66,7 +70,8 @@ function Contact({
                 required: "お名前を入力してください。" // 必須入力バリデーション
               })}
             />
-            {/* エラーメッセージの表示 */}
+            {/* 📚 学習ポイント：型安全なエラーメッセージアクセス */}
+            {/* errors.nameはFormInput型に基づくエラー情報なので、型安全なアクセスが可能 */}
             {errors.name && (
               <span className={styles.errorMessage}>
                 {errors.name.message}
@@ -74,7 +79,7 @@ function Contact({
             )}
           </div>
 
-          {/* メールアドレスフィールド（必須・形式チェック） */}
+          {/* 📚 学習ポイント：メールアドレスフィールド（必須・形式チェック） */}
           <div className={styles.formGroup}>
             <input 
               type="email" 
@@ -96,7 +101,7 @@ function Contact({
             )}
           </div>
 
-          {/* 電話番号フィールド（任意・数字のみ） */}
+          {/* 📚 学習ポイント：電話番号フィールド（任意・数字のみ） */}
           <div className={styles.formGroup}>
             <input 
               type="tel" 
@@ -117,7 +122,7 @@ function Contact({
             )}
           </div>
 
-          {/* メッセージフィールド（任意・バリデーションなし） */}
+          {/* 📚 学習ポイント：メッセージフィールド（任意・バリデーションなし） */}
           <div className={styles.formGroup}>
             <textarea 
               placeholder="メッセージ（任意）"
