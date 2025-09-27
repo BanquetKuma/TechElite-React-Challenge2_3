@@ -19,6 +19,11 @@
   box-sizing: border-box;
 }
 
+/* スムーズスクロール設定 - ハッシュリンクの動作を改善 */
+html {
+  scroll-behavior: smooth;
+}
+
 /* ベースとなるbodyスタイル */
 body {
   font-family: "Noto Sans JP", sans-serif;

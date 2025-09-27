@@ -1,0 +1,90 @@
+/* 📚 学習ポイント：Aboutページのスタイリング */
+/* モジュールCSSで、他のコンポーネントとスタイルが競合しない */
+
+.about {
+  padding: 80px 0;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 200px); /* ヘッダーとフッターの高さを考慮 */
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 60px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* タイトルスタイル */
+.title {
+  font-size: 2.5rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+
+/* セクション共通スタイル */
+.introduction,
+.mission {
+  margin-bottom: 40px;
+}
+
+/* テキストスタイル */
+.lead {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #555;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.text {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #666;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* CTAボタンセクション */
+.cta {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+}
+
+.ctaButton:hover {
+  background-color: #0056b3;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .content {
+    padding: 40px 20px;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .ctaButton {
+    padding: 10px 25px;
+    font-size: 0.9rem;
+  }
+}

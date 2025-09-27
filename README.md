@@ -539,6 +539,294 @@ Challenge 4の完了により、以下のフォーム処理概念を実践的に
 3. **アクセシビリティ**: エラーメッセージとフィールドの関連付け
 4. **保守性**: バリデーションルールの集約による管理の容易さ
 
+## 📚 React Router v6 実装
+
+このプロジェクトはTypeScript移行完了後、**React Router v6**による本格的なSPA（Single Page Application）ナビゲーション機能を実装しました。
+
+### 🎯 課題概要
+
+#### React Router v6 によるSPAナビゲーション実装
+- ✅ **About ページ**と**NotFound ページ**の作成
+- ✅ **ヘッダーナビゲーション**の React Router 対応
+- ✅ **BrowserRouter, Routes, Route**の設定
+- ✅ **Link コンポーネント**の実装
+- ✅ **プログラマティックナビゲーション**（useNavigate）
+- ✅ **カスタムフック useNavigation**の開発
+- ✅ **環境非依存ナビゲーションシステム**構築
+
+### 🔧 実施内容
+
+#### 1. BrowserRouter, Routes, Route の設定
+```typescript
+// App.tsx - ルーティング構造
+<BrowserRouter>
+  <div className="App">
+    <Header />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </div>
+</BrowserRouter>
+```
+
+#### 2. Link コンポーネントの実装
+```typescript
+// Header.tsx - React Router対応ナビゲーション
+import { Link } from 'react-router-dom';
+
+const navItems: NavItemWithSection[] = [
+  { label: 'ホーム', href: '/', section: 'hero' },
+  { label: '特徴', href: '/', section: 'features' },
+  { label: 'お客様の声', href: '/', section: 'testimonials' },
+  { label: 'お問い合わせ', href: '/', section: 'contact' },
+  { label: '私たちについて', href: '/about' }
+];
+```
+
+#### 3. プログラマティックナビゲーション（useNavigate）
+```typescript
+// useNavigation.ts - カスタムフックによる統一ナビゲーション
+import { useNavigate, useLocation } from 'react-router-dom';
+
+export const useNavigation = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const navigateToSection = (href: string, section?: string) => {
+    if (href === '/' && section && location.pathname === '/') {
+      // 同一ページ内セクション移動
+      const element = document.getElementById(section);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (href === '/' && section) {
+      // 他ページからホームページセクション移動
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById(section);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      // 通常のページ遷移
+      navigate(href);
+    }
+  };
+
+  return { navigateToSection };
+};
+```
+
+#### 4. カスタムフック useNavigation の開発
+**設計思想**: 環境非依存なナビゲーションシステムの構築
+- **統一インターフェース**: ページ遷移とセクション移動を単一の関数で処理
+- **条件分岐ロジック**: 現在位置に応じた最適なナビゲーション実行
+- **TypeScript対応**: 型安全なナビゲーション処理
+
+#### 5. 環境非依存ナビゲーションシステム構築
+```typescript
+// types/index.ts - 型定義拡張
+export interface NavItemWithSection extends NavItem {
+  section?: string; // セクション移動のためのオプショナルプロパティ
+}
+```
+
+### ⚠️ 発生したエラーと解決方法
+
+#### エラー1: React 19 互換性問題
+**問題**: React 19.1.1 で React Router v6 が「Invalid hook call」エラー
+```
+Error: Invalid hook call. Hooks can only be called inside the body of a function component.
+```
+
+**原因分析**:
+- React 19.1.1 の新しいフック実装が React Router v6.29.0 と互換性がない
+- React Router の内部実装が React 19 の変更に対応していない
+
+**解決策**: React 18.2.0 へのダウングレード
+```json
+// package.json - React バージョン変更
+{
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
+```
+
+**教訓**: 
+- ライブラリ互換性の事前確認重要性
+- 最新バージョンが必ずしも最適ではない状況の理解
+- 安定性を重視したバージョン選択の必要性
+
+#### エラー2: ハッシュリンククロスページ問題
+**問題**: `/#features` 形式で私たちについてページから正常遷移できない
+```typescript
+// 問題のあるコード
+<a href="/#features">特徴</a>
+// 他ページから実行すると、現在ページのURLに #features が追加され期待通りに動作しない
+```
+
+**原因分析**:
+- 相対ハッシュリンクはページ間で不安定
+- `/#features` が `/about#features` として解釈される問題
+- HTML標準のハッシュリンクとSPAルーティングの競合
+
+**解決策**: JavaScript制御 + useNavigation カスタムフック
+```typescript
+// 解決後のコード
+const { navigateToSection } = useNavigation();
+
+<button onClick={() => navigateToSection('/', 'features')}>
+  特徴
+</button>
+```
+
+**トレードオフ**: 
+- **利点**: 確実なクロスページナビゲーション実現
+- **欠点**: URLにセクション情報が残らない（直接URLアクセス不可）
+
+#### エラー3: About ページスクロール位置問題
+**問題**: 他ページからAboutページ遷移時に最下部表示
+**原因**: React Router がスクロール位置を保持する仕様
+
+**解決策**: useEffect でのページトップスクロールリセット
+```typescript
+// About.tsx - スクロール位置リセット
+useEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
+```
+
+### 🏗️ 技術実装詳細
+
+#### App.tsx のルーティング構造
+```typescript
+// メインルーティング設定
+function App() {
+  return (
+    <BrowserRouter>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
+}
+```
+
+#### Header.tsx のナビゲーション条件分岐
+```typescript
+// スマートナビゲーション実装
+const handleNavClick = (e: React.MouseEvent, item: NavItemWithSection) => {
+  e.preventDefault();
+  navigateToSection(item.href, item.section);
+  setIsMenuOpen(false);
+};
+
+// 条件付きレンダリング
+{item.section ? (
+  <button onClick={(e) => handleNavClick(e, item)}>
+    {item.label}
+  </button>
+) : (
+  <Link to={item.href} onClick={() => setIsMenuOpen(false)}>
+    {item.label}
+  </Link>
+)}
+```
+
+#### useNavigation カスタムフックの設計思想
+**統一されたナビゲーション体験**:
+- 同一ページ内移動: スムーズスクロール実行
+- クロスページ移動: ページ遷移後にセクション移動
+- 通常ページ移動: 標準的なReact Router navigation
+
+### 📈 学習ポイント
+
+#### 1. React Router vs HTML標準リンクの使い分け
+- **React Router Link**: ページ間遷移に使用
+- **JavaScript制御**: セクション移動に使用
+- **ハイブリッド実装**: 複雑な要件に対する柔軟な対応
+
+#### 2. SPA特有のナビゲーション課題
+- **ブラウザ履歴管理**: pushState/replaceState の適切な使用
+- **スクロール位置制御**: ページ遷移時の位置リセット
+- **URL設計**: ユーザビリティとSEOのバランス
+
+#### 3. カスタムフックによるロジック再利用
+- **関心分離**: ナビゲーションロジックの独立化
+- **テスタビリティ**: 単体テスト可能な設計
+- **保守性**: 一箇所での変更が全体に反映
+
+#### 4. 環境非依存設計の重要性
+- **柔軟性**: 異なるルーティング要件への対応
+- **拡張性**: 新機能追加時の影響最小化
+- **一貫性**: 統一されたナビゲーション体験
+
+### 🛡️ 再発防止策
+
+#### 1. React バージョン互換性の事前確認手順
+```bash
+# 依存関係の互換性チェック
+npm ls react react-dom react-router-dom
+# ライブラリの対応バージョン確認
+npm info react-router-dom peerDependencies
+```
+
+#### 2. クロスページナビゲーション設計パターン
+- **設計時**: ナビゲーション要件の事前整理
+- **実装時**: JavaScript制御とHTML標準の使い分け明確化
+- **テスト時**: 全ページからの遷移パターン検証
+
+#### 3. ハッシュリンク vs JavaScript制御の判断基準
+| 要件 | ハッシュリンク | JavaScript制御 |
+|------|---------------|----------------|
+| 同一ページ内移動 | ✅ 推奨 | △ 可能 |
+| クロスページ移動 | ❌ 不安定 | ✅ 推奨 |
+| URL直接アクセス | ✅ 可能 | ❌ 不可能 |
+| 実装複雑度 | ✅ 簡単 | △ 中程度 |
+
+### 📁 最終的なファイル構造
+
+#### React Router 対応後のプロジェクト構造
+```
+src/
+├── App.tsx (React Router設定)
+├── types/
+│   └── index.ts (NavItemWithSection型追加)
+├── hooks/
+│   └── useNavigation.ts (カスタムナビゲーションフック)
+├── pages/
+│   ├── Home.tsx (メインランディングページ)
+│   ├── About.tsx (会社情報ページ)
+│   └── NotFound.tsx (404エラーページ)
+├── components/
+│   ├── Header/ (React Router対応ナビゲーション)
+│   ├── Hero/
+│   ├── Features/
+│   ├── Testimonials/
+│   ├── Contact/
+│   └── Footer/
+└── styles/
+    ├── About.module.css
+    └── NotFound.module.css
+```
+
+### 🎯 React Router v6 実装の成果
+- **完全なSPA化**: マルチページナビゲーション実現
+- **型安全なルーティング**: TypeScript対応React Router実装
+- **カスタムフック開発**: 再利用可能なナビゲーションロジック
+- **エラー解決経験**: 互換性問題とクロスページ課題の解決
+- **アーキテクチャ設計**: 拡張可能なナビゲーションシステム構築
+
 ## 🚀 次のステップ
 
 ### Phase 2: 高度なTypeScript機能の実装

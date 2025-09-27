@@ -49,8 +49,22 @@
   transition: color 0.3s ease;
 }
 
-/* ホバー時のスタイル */
-.navLinks li a:hover {
+/* ナビゲーションボタン（JavaScript制御セクション用） */
+.navButton {
+  color: var(--text-color);
+  background: none;
+  border: none;
+  font-weight: 500;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 0;
+}
+
+/* ホバー時のスタイル（アンカータグとボタン共通） */
+.navLinks li a:hover,
+.navButton:hover {
   color: var(--primary-color);
 }
 

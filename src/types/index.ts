@@ -6,10 +6,18 @@
 // 📋 ナビゲーション関連の型定義
 // ==========================================
 
-// Header コンポーネントで使用するナビゲーションアイテムの型
+// Header コンポーネントで使用するナビゲーションアイテムの型（従来版）
 export interface NavItem {
   href: string;  // リンク先URL（必須）
   text: string;  // 表示テキスト（必須）
+}
+
+// 📚 学習ポイント：拡張性を重視した新しいナビゲーション型
+// セクションリンクとページリンクを区別し、JavaScript制御に対応
+export interface NavItemWithSection {
+  sectionId?: string; // セクションID（セクションリンクの場合）
+  href?: string;      // リンク先URL（ページリンクの場合）
+  text: string;       // 表示テキスト（必須）
 }
 
 // ==========================================
@@ -50,10 +58,17 @@ export interface ContactFormInput {
 // 各コンポーネントのProps型を共通ファイルで管理することで、
 // 型の一貫性を保ち、変更時の影響範囲を明確にする
 
-// Header コンポーネントのProps型
+// Header コンポーネントのProps型（従来版）
 export interface HeaderProps {
   logoText?: string;     // ロゴテキスト（オプショナル）
   navItems?: NavItem[];  // ナビゲーションアイテムの配列（オプショナル）
+}
+
+// 📚 学習ポイント：新しいナビゲーション型に対応したHeaderProps
+// 拡張性を重視したセクション対応ナビゲーション
+export interface HeaderPropsWithSection {
+  logoText?: string;                   // ロゴテキスト（オプショナル）
+  navItems?: NavItemWithSection[];     // 新しいナビゲーションアイテムの配列（オプショナル）
 }
 
 // Hero コンポーネントのProps型

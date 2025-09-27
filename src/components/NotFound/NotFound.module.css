@@ -1,0 +1,135 @@
+/* 📚 学習ポイント：404ページのスタイリング */
+/* エラーページでも、ブランドイメージを保ちながらユーザーフレンドリーに */
+
+.notFound {
+  min-height: calc(100vh - 200px); /* ヘッダーとフッターの高さを考慮 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 20px;
+}
+
+.container {
+  text-align: center;
+  max-width: 600px;
+  background-color: white;
+  padding: 60px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* 404の大きな表示 */
+.errorCode {
+  font-size: 120px;
+  font-weight: 900;
+  color: #667eea;
+  margin: 0;
+  line-height: 1;
+  /* 📚 学習ポイント：グラデーションテキスト */
+  /* モダンなデザインテクニック */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.title {
+  font-size: 2rem;
+  color: #333;
+  margin: 20px 0;
+  font-weight: 700;
+}
+
+.message {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.7;
+  margin: 20px 0 40px;
+}
+
+/* アクションボタン */
+.actions {
+  margin: 40px 0;
+}
+
+.homeButton {
+  display: inline-block;
+  padding: 15px 40px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.homeButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+}
+
+/* 提案セクション */
+.suggestions {
+  margin-top: 50px;
+  padding-top: 40px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.suggestionsTitle {
+  font-size: 1.1rem;
+  color: #555;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.suggestionsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  display: inline-block;
+}
+
+.suggestionsList li {
+  color: #666;
+  margin: 10px 0;
+  padding-left: 25px;
+  position: relative;
+  line-height: 1.6;
+}
+
+/* リストアイテムの前のアイコン */
+.suggestionsList li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #667eea;
+  font-weight: bold;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .container {
+    padding: 40px 30px;
+  }
+  
+  .errorCode {
+    font-size: 80px;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .message {
+    font-size: 1rem;
+  }
+  
+  .homeButton {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+}

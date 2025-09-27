@@ -14,7 +14,7 @@ function Hero({
   ctaLink = "#contact"
 }: HeroProps) {
   return (
-    <section className={styles.hero}>
+    <section id="hero" className={styles.hero}>
       <div className="section-container">
         {/* 📚 学習ポイント：型安全性の恩恵 */}
         {/* titleはstring型であることが保証されているため、安全に使用可能 */}
